@@ -19,7 +19,7 @@ namespace Quicksort
     {
         public static void Main(string[] args)
         {
-            int[] arr = { 2,8,7,1,3,5,6,4}; //array of 8 elements unsorted
+            int[] arr = { 10, 7, 8, 9, 1, 5 };//{ 2,8,7,1,3,5,6,4}; //array of 8 elements unsorted
             Console.WriteLine("Welcome to Quicksort Algorithm.");
             Console.WriteLine("Print items in the array before sorted:   ");
 
@@ -28,9 +28,9 @@ namespace Quicksort
                 Console.Write("{0},",item); //print all the items in the array
             }
 
-            quicksort(arr, 1, arr.Length);       //sort the array
+            quicksort(arr, 0, arr.Length-1);       //sort the array
 
-            Console.WriteLine("Print items in the array after sorted: ");
+            Console.WriteLine("\nPrint items in the array after sorted: ");
             foreach (var item in arr)
             {
                 Console.Write("{0},", item); //print all the items in the array
@@ -50,7 +50,7 @@ namespace Quicksort
         //          3.    QUICKSORT(A, p, q-1)
         //          4.    QUICKSORT(A, q+1, r)
         // it uses 3 steps : Divide, Conquer, and Combine
-        // note: to sort an entire array A, the initial call is QUICKSORT(A, 1, A.length).
+        // note: to sort an entire array A, the initial call is QUICKSORT(A, 0, A.length).
         public static void quicksort(int []A, int p, int r)
         {
             int q;  //the mid-point of the array
@@ -58,7 +58,7 @@ namespace Quicksort
             if (p < r)
             {
                 q = partition(A, p, r);      //divide the array
-                quicksort(A, p, q - 1);      //sort the 1st part
+                quicksort(A, p, q - 1);      //sort the 1st part 
                 quicksort(A, q + 1, r);      //sort the 2nd part
             }
         }
@@ -78,28 +78,36 @@ namespace Quicksort
         //        6.          exchange A[i] with A[j]
         //        7. exchange A[i + 1] with A[r]
         //        8. return i + 1
+        // note: there are different ways of choosing the pivot. that is the key to the partition algorithm
+        //      1. make the last element pivot -> which is implemented in this code
+        //      2. make the first element pivot
+        //      3. pick a random element as pivot
+        //      4. pick median as pivot
         public static int partition(int []A, int p, int r)
         {
-            int x = A[r];      // the last element in the array
-            int i = p - 1;
-            int temp;
+            int pivot = A[r];      // the last element in the array
+            int i = p-1;
+            int temp,temp1; 
 
-            for (int j = p; j < A.Length; j++)
+            for (int j = p; j < r; j++)
             {
-                if (A[j] <= x)
+                if (A[j] <= pivot )
                 {
                     i++;    //increment i
+
+                    //swap A[i] with A[j]
                     temp = A[i];
                     A[i] = A[j];
-                    A[j] = temp;        //swap A[i] with A[j]
+                    A[j] = temp;        
                 }
             }
 
             //swap A[i + 1] with A[r]
-            A[r] = A[i + 1];
-            A[i + 1] = x;
+            temp1 = A[i + 1];
+            A[i+1] = A[r];
+            A[r] = temp1;
 
-            return i + 1;
+            return i+1;  //return i + 1
         }
         #endregion
     }
